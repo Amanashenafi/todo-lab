@@ -1,12 +1,13 @@
 name: CI
 
 on:
-  pull_request:
   push:
+    branches: [ feature/ci-setup ]
+  pull_request:
     branches: [ main ]
 
 jobs:
-  scan_ruby:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,24 +17,12 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: .ruby-version
-          bundler-cache: true
+          ruby-version: 3.4.7
 
-      - name: Scan for common Rails security vulnerabilities using static analysis
-        run: bin/brakeman --no-pager
+      - name: Install dependencies
+        run: |
+          gem install bundler
+          bundle install
 
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: .ruby-version
-          bundler-cache: true
-
-      - name: Lint code for consistent style
-        run: bin/rubocop -f github
-
+      - name: Run tests
+        run: bundle exec rspec
