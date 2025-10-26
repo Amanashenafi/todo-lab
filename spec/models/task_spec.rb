@@ -10,10 +10,6 @@ RSpec.describe Task, type: :model do
     expect(build(:task, title: nil)).not_to be_valid
   end
 
-  it "fails intentionally for CI demonstration" do
-    expect(Task.non_existent_method).to eq(true)
-  end
-
   it "validates presence of description" do
     expect(build(:task, description: nil)).not_to be_valid
   end
