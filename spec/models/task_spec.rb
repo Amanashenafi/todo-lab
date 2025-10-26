@@ -5,6 +5,7 @@ RSpec.describe Task, type: :model do
     expect(build(:task)).to be_valid
   end
 
+
   it "validates presence of title" do
     expect(build(:task, title: nil)).not_to be_valid
   end
